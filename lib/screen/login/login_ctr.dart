@@ -19,6 +19,11 @@ class LoginPageController extends GetxController {
   String deviceId = '';
   String version = '2';
   RxBool rememberMe = false.obs;
+  var isPasswordVisible = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
 
   toggleRememberMe() {
     rememberMe.value = !rememberMe.value;

@@ -7,6 +7,7 @@ import 'login_ctr.dart';
 class LoginPage extends StatelessWidget {
 
   final LoginPageController controller = Get.find<LoginPageController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,51 +18,64 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/loginimage.png'),
-              Center(child: Text('Login',style: TextStyle
-                (color: Colors.deepPurple,fontSize: 20,fontWeight: FontWeight.bold),)),
+              Center(child: Text('Login', style: TextStyle
+                (color: Colors.deepPurple,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),)),
               TextField(
                 controller: controller.emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email id / Phone No.',
-                    hintText: 'Enter Your Email id / Phone No.',
-                  ),
-              ),
-              SizedBox(height: 20),
-
-              TextField(
-                obscureText: true,
-                controller: controller.passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Enter Your Password',
+                  labelText: 'Email id / Phone No.',
+                  hintText: 'Enter Your Email id / Phone No.',
                 ),
               ),
+              SizedBox(height: 20),
+
+              Obx(() {
+                return TextField(
+                  obscureText: !controller.isPasswordVisible.value,
+                  controller: controller.passwordController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    hintText: 'Enter Your Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(controller.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        controller.togglePasswordVisibility();
+                      },
+                    ),
+                  ),);
+              }),
 
               SizedBox(height: 20),
-              Obx(() => Row(
-                children: [
-                  Checkbox(
-                    value: controller.rememberMe.value,
-                    onChanged: (value) {
-                      controller.toggleRememberMe();
-                    },
-                  ),
-                  Text('Remember Me'),
-                ],
-              )),
+              Obx(() =>
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: controller.rememberMe.value,
+                        onChanged: (value) {
+                          controller.toggleRememberMe();
+                        },
+                      ),
+                      Text('Remember Me'),
+                    ],
+                  )),
               SizedBox(height: 20),
 
               SizedBox(
                 width: Get.width,
                 height: 52,
-                child:ElevatedButton(
-                  onPressed: (){
+                child: ElevatedButton(
+                  onPressed: () {
                     controller.login();
                   },
                   style: ButtonStyle(backgroundColor:
-                  MaterialStatePropertyAll(Colors.deepPurple),foregroundColor: MaterialStatePropertyAll(Colors.white)),
+                  MaterialStatePropertyAll(Colors.deepPurple),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white)),
                   child: Text('Login'),
                 ),
               )
